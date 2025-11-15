@@ -10,7 +10,7 @@ module Spi_Master(
   output reg done,
   output reg cs
 );
-  localparam IDLE=3'b000, SHIFT=3'b010, DONE=3'b011
+  localparam IDLE=3'b000, SHIFT=3'b010, DONE=3'b011;
 
   reg [2:0] bit_count;
   reg [7:0] shift_reg;
