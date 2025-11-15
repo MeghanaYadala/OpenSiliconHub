@@ -1,4 +1,4 @@
-module pre_scaler #(
+module Pre_Scaler #(
   parameter DIVISOR=4
 )(
   input wire clk_in,
