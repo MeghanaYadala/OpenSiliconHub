@@ -1,4 +1,4 @@
-module pipo #(
+module PIPO #(
   parameter SIZE=8
 )(
   input wire [SIZE-1:0] in,
