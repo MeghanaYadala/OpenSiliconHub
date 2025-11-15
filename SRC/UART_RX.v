@@ -1,4 +1,4 @@
-module uart_rx(
+module UART_RX(
   input wire clk,
   input wire reset,
   input wire rx_line,
