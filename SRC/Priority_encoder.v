@@ -1,5 +1,5 @@
 module Priority_encoder(
-  input wire [7:] in,
+  input wire [7:0] in,
   output reg [2:0] out,
   output reg valid
 )
