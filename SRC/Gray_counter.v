@@ -1,4 +1,4 @@
-module gray_counter #(
+module Gray_counter #(
   parameter SIZE = 16  
 )(
   input  wire clk,
