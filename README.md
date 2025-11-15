@@ -95,4 +95,4 @@ For proposals or questions, start a GitHub Discussion before a PR.
 
 For module requests, ideas, improvements, or collaboration, use the **GitHub Discussions** section of this repository.
 
-[![Lint Status](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/lint.yml/badge.svg)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/lint.yml)
+[![Lint Status](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/Verilog-lint.yml/badge.svg)](https://github.com/MrAbhi19/Verilog_Library/actions/workflows/Verilog-lint.yml)
