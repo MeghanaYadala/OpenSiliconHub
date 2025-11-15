@@ -1,4 +1,4 @@
-module mac #(
+module MAC #(
   parameter WIDTH=8;
 )(
   input [WIDTH-1] A,B,
