@@ -3,8 +3,12 @@ name: Verilog Lint (Strict Mode)
 on:
   push:
     branches: [ main ]
+    paths:
+    - 'SRC/**'
   pull_request:
     branches: [ main ]
+    paths:
+    - 'SRC/**'
 
 jobs:
   lint:
