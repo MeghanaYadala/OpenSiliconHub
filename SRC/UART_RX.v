@@ -53,6 +53,7 @@ module UART_RX #(
           if (clk_count == $clog2(clks_per_bit)'(clks_per_bit/2)) begin
             if (rx_line == 0) begin
               clk_count <= 0;
+              s_reg[0]<=0;
               bit_index <= 0;
               state <= DATA;
             end else begin
