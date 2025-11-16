@@ -9,8 +9,7 @@ module UART_RX(
 );
   parameter clk_freq = 50000000;
   parameter baud_rate = 9600;
-  localparam clks_per_bit = clk_freq / baud_rate;
-  localparam half_clks_per_bit = clks_per_bit/2;
+  localparam [15:0] clks_per_bit = clk_freq / baud_rate;
 
   reg [3:0] bit_index;
   reg [15:0] clk_count;
@@ -50,7 +49,7 @@ module UART_RX(
         end
 
         START: begin
-          if (clk_count == 16'dhalf_clks_per_bit) begin
+          if (clk_count == (clks_per_bit/2)) begin
             if (rx_line == 0) begin
               clk_count <= 0;
               bit_index <= 0;
@@ -65,7 +64,7 @@ module UART_RX(
         end
 
         DATA: begin
-          if (clk_count == 16'd(clks_per_bit - 1)) begin
+          if (clk_count == clks_per_bit - 1) begin
             clk_count <= 0;
             s_reg[bit_index + 1] <= rx_line; // bits 1 to 8
             bit_index <= bit_index + 1;
@@ -77,7 +76,7 @@ module UART_RX(
         end
 
         STOP: begin
-          if (clk_count == 16'd(clks_per_bit - 1)) begin
+          if (clk_count == clks_per_bit - 1) begin
             clk_count <= 0;
             s_reg[9] <= rx_line; // stop bit
             data <= s_reg[8:1];
