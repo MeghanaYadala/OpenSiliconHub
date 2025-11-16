@@ -1,13 +1,13 @@
 module PISO #(
-  parameter SIZE = 8,
+  parameter WIDTH = 8,
   parameter SHIFT_DIR = 0   
 )(
-  input wire [SIZE-1:0] in,
+  input wire [WIDTH-1:0] in,
   input wire reset, clk, enable,
   output reg out, done, busy
 );
-  localparam max_count= (SIZE>1) ? SIZE-1 : 1;
-  reg [$clog2(SIZE)-1:0] bit_count;
+  localparam max_count= (WIDTH>1) ? WIDTH-1 : 1;
+  reg [$clog2(WIDTH)-1:0] bit_count;
   
   always @(posedge clk or posedge reset) begin
     if (reset) begin
@@ -20,14 +20,14 @@ module PISO #(
       done <= 0; 
 
       if (SHIFT_DIR == 1) begin
-        out <= in[SIZE-1-bit_count];  
+        out <= in[WIDTH-1-bit_count];  
       end else begin
         out <= in[bit_count];         
       end
 
       busy <= 1;
 
-      if (bit_count == $clog2(SIZE)'(max_count)) begin
+      if (bit_count == $clog2(WIDTH)'(max_count)) begin
         bit_count <= 0;
         done <= 1;   
         busy <= 0;  
