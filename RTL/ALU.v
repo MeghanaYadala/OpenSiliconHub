@@ -1,10 +1,10 @@
 module ALU #(
-  parameter SIZE=8
+  parameter WIDTH=8
 )(
-  input wire [SIZE-1:0] A,
-  input wire [SIZE-1:0] B,
+  input wire [WIDTH-1:0] A,
+  input wire [WIDTH-1:0] B,
   input wire [2:0] sel,
-  output reg [SIZE:0] out
+  output reg [WIDTH:0] out
 );
   always@(*) begin
     case(sel)
@@ -16,7 +16,7 @@ module ALU #(
       3'b101: out={1'b0,~(A|B)};
       3'b110: out={1'b0,~(A&B)};
       3'b111: out={1'b0,~(A^B)};
-      default: out={SIZE+1{1'b0}};
+      default: out={WIDTH+1{1'b0}};
     endcase
   end
 endmodule
