@@ -10,7 +10,8 @@ module UART_TX#(
   localparam clks_per_bit=clk_freq/baud_rate;
   reg [15:0] clk_count;
   reg [3:0] bit_index;
-  reg [9:0] s_reg<=10'b1111111111;
+  reg [9:0] s_reg;
+  initial s_reg<=10'b1111111111;
 
   always@(posedge clk or posedge reset) begin
     if (reset) begin
