@@ -4,7 +4,7 @@ This index provides quick access to all modules in the repository along with the
 
 | Module Name        | Source Code                  | Testbenches                        | Waveforms        | Documentation                     | Synthesis        |
 |--------------------|------------------------------|------------------------------------|------------------|-----------------------------------|------------------|
-| **ALU**            | [ALU.v](./RTL/ALU.v)     | Pending                            | Pending          | [ALU.md](./Docs/ALU.md)      | Pending          |
+| **ALU**            | [ALU.v](./RTL/ALU.v)     | [ALU_tb.sv](.Testbenches/ALU_tb.sv) | Pending          | [ALU.md](./Docs/ALU.md)      | Pending          |
 | **Barrel Shifter** | [Barrel_shifter.v](./RTL/Barrel_shifter.v) | [Barrel_shifter_tb.sv](./Testbenches/Barrel_shifter_tb.sv) | Pending          | [Barrel_shifter.md](./Docs/Barrel_shifter.md) | Pending          |
 | **Bi-directional Counter** | [Bi_count.v](./RTL/Bi_count.v) | Pending                            | Pending          | [Bi_count.md](./Docs/Bi_count.md) | Pending          |
 | **Gray Counter**   | [Gray_counter.v](./RTL/Gray_counter.v) | Pending                            | Pending          | [Gray_counter.md](./Docs/Gray_counter.md) | Pending          |
