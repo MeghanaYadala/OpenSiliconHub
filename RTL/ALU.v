@@ -16,7 +16,7 @@ module ALU #(
       3'b101: out={1'b0,~(A|B)};
       3'b110: out={1'b0,~(A&B)};
       3'b111: out={1'b0,~(A^B)};
-      default: out={WIDTH+1{1'b0}};
+      default: out={(WIDTH+1) {1'b0}};
     endcase
   end
 endmodule
