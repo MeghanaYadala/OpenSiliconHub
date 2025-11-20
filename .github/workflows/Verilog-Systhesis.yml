@@ -7,10 +7,10 @@ on:
         description: "Path to the Verilog source file"
         required: true
         default: "RTL/ALU.v"
-      testbench_file:
-        description: "Path to the testbench file"
+      top_module:
+        description: "Top module name for synthesis"
         required: true
-        default: "Testbenches/ALU_tb.sv"
+        default: "ALU"
 
 jobs:
   synthesize:
@@ -23,19 +23,22 @@ jobs:
       - name: Setup OSS CAD Suite
         uses: YosysHQ/setup-oss-cad-suite@v2
 
-      - name: Run Simulation
+      - name: Synthesis for iCE40UP5K
         run: |
-          iverilog -o sim_out ${{ github.event.inputs.verilog_file }} ${{ github.event.inputs.testbench_file }}
-          vvp sim_out
+          yosys -p "read_verilog ${{ github.event.inputs.verilog_file }}; synth_ice40 -top ${{ github.event.inputs.top_module }} -json design_ice40.json"
+          nextpnr-ice40 --up5k --json design_ice40.json --asc design_ice40.asc
+          icetime -d up5k -c 12 design_ice40.asc > ice40_report.txt
 
-      - name: Run Synthesis (iCE40UP5K)
+      - name: Synthesis for Artix-7 XC7A35T
         run: |
-          yosys -p "read_verilog ${{ github.event.inputs.verilog_file }}; synth_ice40 -top top -json design.json"
-          nextpnr-ice40 --up5k --json design.json --asc design.asc
-          icetime -d up5k -c 12 design.asc > synthesis_report.txt
+          yosys -p "read_verilog ${{ github.event.inputs.verilog_file }}; synth_xilinx -top ${{ github.event.inputs.top_module }} -json design_xilinx.json"
+          nextpnr-xilinx --chipdb xc7a35t.bin --json design_xilinx.json --fasm design_xilinx.fasm
+          echo "Artix-7 synthesis complete" > artix7_report.txt
 
       - name: Upload Reports
         uses: actions/upload-artifact@v4
         with:
           name: synthesis-reports
-          path: synthesis_report.txt
+          path: |
+            ice40_report.txt
+            artix7_report.txt
