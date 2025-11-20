@@ -1,0 +1,41 @@
+name: Manual Synthesis
+
+on:
+  workflow_dispatch:
+    inputs:
+      verilog_file:
+        description: "Path to the Verilog source file"
+        required: true
+        default: "RTL/ALU.v"
+      testbench_file:
+        description: "Path to the testbench file"
+        required: true
+        default: "Testbenches/ALU_tb.sv"
+
+jobs:
+  synthesize:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup OSS CAD Suite
+        uses: YosysHQ/setup-oss-cad-suite@v2
+
+      - name: Run Simulation
+        run: |
+          iverilog -o sim_out ${{ github.event.inputs.verilog_file }} ${{ github.event.inputs.testbench_file }}
+          vvp sim_out
+
+      - name: Run Synthesis (iCE40UP5K)
+        run: |
+          yosys -p "read_verilog ${{ github.event.inputs.verilog_file }}; synth_ice40 -top top -json design.json"
+          nextpnr-ice40 --up5k --json design.json --asc design.asc
+          icetime -d up5k -c 12 design.asc > synthesis_report.txt
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: synthesis-reports
+          path: synthesis_report.txt
