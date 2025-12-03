@@ -1,7 +1,7 @@
 name: Verilog Simulation
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:   # Manual trigger only
 
 jobs:
   simulate:
@@ -14,27 +14,21 @@ jobs:
     - name: Install Icarus Verilog
       run: sudo apt-get update && sudo apt-get install -y iverilog
 
-    - name: Compile and run testbench Multiplier
+    - name: Compile and run all testbenches
       run: |
-        iverilog -g2012 -o simv RTL/Multiplier.v Testbenches/Multiplier_tb.sv
-        vvp simv
-
-    - name: Compile and run testbench Barrel_shifter
-      run: |
-        iverilog -g2012 -o simv RTL/Barrel_shifter.v Testbenches/Barrel_shifter_tb.sv
-        vvp simv
-
-    - name: Compile and run testbench ALU
-      run: |
-        iverilog -g2012 -o simv RTL/ALU.v Testbenches/ALU_tb.sv
-        vvp simv
-        
-    - name: Compile and run testbench MAC
-      run: |
-        iverilog -g2012 -o simv RTL/MAC.v Testbenches/MAC_tb.sv
-        vvp simv
-        
-    - name: Compile and run testbench Matrix multiplier
-      run: |
-        iverilog -g2012 -o simv RTL/Matrix_multiplier.v Testbenches/Matrix_multiplier_tb.sv
-        vvp simv
+        echo "Searching for RTL + Testbench pairs under /SRC..."
+        status=0
+        for tb in $(find SRC -type f -name "Testbench.sv"); do
+          module_dir=$(dirname "$tb")
+          rtl_file="$module_dir/RTL.v"
+          if [ -f "$rtl_file" ]; then
+            echo "--------------------------------------------"
+            echo "Compiling and running testbench in $module_dir ..."
+            iverilog -g2012 -o simv "$rtl_file" "$tb" && vvp simv || status=1
+            echo "--------------------------------------------"
+          else
+            echo "WARNING: No RTL.v found for $tb"
+            status=1
+          fi
+        done
+        exit $status
