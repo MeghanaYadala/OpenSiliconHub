@@ -1,5 +1,4 @@
 # *Parallel-In Serial-Out (PISO) Register*
-### *(Source: [PISO.v](../RTL/PISO.v))*
 ## *About*
 - PISO (Parallel-In Serial-Out) register is a sequential circuit that loads parallel input data and shifts it out serially, one bit per clock cycle.<br>
 - It supports both left and right shifting, controlled by the `SHIFT_DIR` parameter.<br>
